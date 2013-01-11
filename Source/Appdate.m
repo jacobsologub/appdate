@@ -56,6 +56,10 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     {
         NSAssert (appleIdToUse != -1, @"The Apple ID has to be valid.");
         appleId = appleIdToUse;
+        
+       #if NS_BLOCKS_AVAILABLE
+        completionBlock = nil;
+       #endif
     }
     
     return self;
@@ -68,6 +72,10 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 
 - (void) dealloc
 {
+   #if NS_BLOCKS_AVAILABLE
+    Block_release (completionBlock), completionBlock = nil;
+   #endif
+    
     delegate = nil;
     [super dealloc];
 }
@@ -110,13 +118,39 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     {
         if ([delegate respondsToSelector: @selector (appdateFailed:)])
         {
-            NSDictionary* info = [NSDictionary dictionaryWithObject: @"A connection can't be created." forKey: @"message"];            
+            NSDictionary* info = [NSDictionary dictionaryWithObject: @"A connection can't be created." forKey: @"message"];
+            NSError* error = [NSError errorWithDomain: @"NSURLErrorDomain" code: -1 userInfo: info];
+            
             [delegate appdateFailed: [NSError errorWithDomain: @"NSURLErrorDomain" code: -1 userInfo: info]];
+            
+           #if NS_BLOCKS_AVAILABLE
+            if (completionBlock != nil)
+            {
+                completionBlock (error, nil, NO);
+                Block_release (completionBlock), completionBlock = nil;
+            }
+           #endif
         }
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
+
+#if NS_BLOCKS_AVAILABLE
+- (void) checkNowWithBlock: (AppdateCompletionBlock) block
+{
+    if (completionBlock != nil)
+    {
+        Block_release (completionBlock), completionBlock = nil;
+    }
+    
+    if (block != nil)
+    {
+        completionBlock = Block_copy (block);
+        [self checkNow];
+    }
+}
+#endif
 
 #pragma mark -
 #pragma mark NSURLConnection Delegate
@@ -130,15 +164,23 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     {
         NSDictionary* jsonData = [results objectAtIndex: 0];
         
+        NSString* thisVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*) kCFBundleVersionKey];
+        NSString* thatVersion = [jsonData objectForKey: @"version"];
+        
+        BOOL hasUpdate = [self compareVersions: thisVersion version2: thatVersion] == NSOrderedAscending;
+        
         if ([delegate respondsToSelector: @selector (appdateComplete:updateAvailable:)])
         {
-            NSString* thisVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*) kCFBundleVersionKey];
-            NSString* thatVersion = [jsonData objectForKey: @"version"];
-            
-            BOOL hasUpdate = [self compareVersions: thisVersion version2: thatVersion] == NSOrderedAscending;
-            
             [delegate appdateComplete: jsonData updateAvailable: hasUpdate];
         }
+        
+       #if NS_BLOCKS_AVAILABLE
+        if (completionBlock != nil)
+        {
+            completionBlock (nil, jsonData, hasUpdate);
+            Block_release (completionBlock), completionBlock = nil;
+        }
+       #endif
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -150,6 +192,14 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     {        
         [delegate appdateFailed: error];
     }
+    
+   #if NS_BLOCKS_AVAILABLE
+    if (completionBlock != nil)
+    {
+        completionBlock (error, nil, NO);
+        Block_release (completionBlock), completionBlock = nil;
+    }
+   #endif
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }

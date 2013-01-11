@@ -30,6 +30,10 @@ extern NSString* const kAppdateUrl;
 
 @protocol AppdateDelegate;
 
+#if NS_BLOCKS_AVAILABLE
+typedef void (^AppdateCompletionBlock)(NSError* error, NSDictionary* appInfo, BOOL updateAvailable);
+#endif
+
 //==============================================================================
 /**	Appdate Class 
  
@@ -68,6 +72,10 @@ extern NSString* const kAppdateUrl;
 @private
     int appleId;
     id <AppdateDelegate> delegate;
+    
+   #if NS_BLOCKS_AVAILABLE
+    AppdateCompletionBlock completionBlock;
+   #endif
 }
 
 //==============================================================================
@@ -94,6 +102,14 @@ extern NSString* const kAppdateUrl;
     @see AppdateDelegate
 */
 - (void) checkNow;
+
+#if NS_BLOCKS_AVAILABLE
+/**	Checks to see if an update is available with a completion handler.
+ 
+    @see AppdateCompletionBlock
+ */
+- (void) checkNowWithBlock: (AppdateCompletionBlock) block;
+#endif
 
 @end
 
