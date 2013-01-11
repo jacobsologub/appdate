@@ -37,7 +37,15 @@
         
     Appdate* appdate = [Appdate appdateWithAppleId: 284910350];
     appdate.delegate = self;
-    [appdate checkNow];
+    
+   #if NS_BLOCKS_AVAILABLE
+    [appdate checkNowWithBlock: ^(NSError* error, NSDictionary* appInfo, BOOL updateAvailable) {
+        if (!error)
+        {
+            
+        }
+    }];
+   #endif
     
     return YES;
 }
