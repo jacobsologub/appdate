@@ -8,6 +8,8 @@ the main bundle version retrieved using kCFBundleVersionKey.
 Usage:
 -----
 
+### Using a Delegate
+
     - (void) foo
     {
         Appdate* appdate = [Appdate appdateWithAppleId: yourAppleAppID];
@@ -23,4 +25,17 @@ Usage:
     - (void) appdateFailed: (NSError*) error
     {
         
+    }
+    
+### Using Blocks
+    
+    - (void) foo
+    {
+        Appdate* appdate = [Appdate appdateWithAppleId: yourAppleAppID];
+        [appdate checkNowWithBlock: ^(NSError* error, NSDictionary* appInfo, BOOL updateAvailable) {
+            if (!error)
+            {
+                // Show the user an alert, take them to the app store etc...
+            }
+        }];
     }
