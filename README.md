@@ -1,9 +1,9 @@
 A simple class that calls Apple's search API service to get info for an 
-Apple "app" ID. The Apple Id can be found on your iTunes Connect App's 
+Apple "app" ID and check if an App update is available. The Apple Id can be found on your iTunes Connect App's 
 Information page.
  
-The version that's used for comparison against the returned version is from
-the main bundle version retrieved using kCFBundleVersionKey.
+The "version" that's used for comparison against the returned version to check if an application update is availbale  is from
+from the main bundle's version, retrieved using the kCFBundleVersionKey.
 
 Usage:
 -----
