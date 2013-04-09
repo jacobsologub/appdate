@@ -130,5 +130,6 @@ typedef void (^AppdateCompletionBlock)(NSError* error, NSDictionary* appInfo, BO
  
     @see AppdateDelegate#appdateComplete:appInfo:updateAvailable
 */
+@optional
 - (void) appdateFailed: (NSError*) error;
 @end
