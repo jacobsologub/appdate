@@ -138,7 +138,9 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     NSError* error = nil;
     NSDictionary* object = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableLeaves error: &error];
     if (error != nil) {
-        [delegate appdateFailed: error];
+        if ([delegate respondsToSelector: @selector (appdateFailed:)]) {
+            [delegate appdateFailed: error];
+        }
         
         #if NS_BLOCKS_AVAILABLE
         if (completionBlock != nil) {
@@ -148,11 +150,11 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
        #endif
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
         return;
     }
     
     NSArray* results = [object objectForKey: @"results"];
-    
     if (results.count > 0) {
         NSDictionary* jsonData = [results objectAtIndex: 0];
         
