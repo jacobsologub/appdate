@@ -26,12 +26,6 @@
 
 #import "Appdate.h"
 
-/** If you get an error here then you'll need to have JSONKit 
-    https://github.com/johnezang/JSONKit/ and its header files will need to be 
-    in your include path.
-*/
-#import "JSONKit.h"
-
 NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 
 @interface Appdate (Private)
@@ -157,7 +151,22 @@ NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 //==============================================================================
 - (void) connection: (NSURLConnection*) connection didReceiveData: (NSData*) data
 {
-    NSDictionary* object = [data objectFromJSONData];
+    NSError* error = nil;
+    NSDictionary* object = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableLeaves error: &error];
+    if (error != nil) {
+        [delegate appdateFailed: error];
+        
+        #if NS_BLOCKS_AVAILABLE
+        if (completionBlock != nil)
+        {
+            completionBlock (error, nil, NO);
+            Block_release (completionBlock), completionBlock = nil;
+        }
+       #endif
+        
+        return;
+    }
+    
     NSArray* results = [object objectForKey: @"results"];
     
     if (results.count > 0)

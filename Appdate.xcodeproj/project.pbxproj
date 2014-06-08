@@ -14,7 +14,6 @@
 		1630A68215A37B5000F2EEAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1630A68115A37B5000F2EEAA /* main.m */; };
 		1630A68615A37B5000F2EEAA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1630A68515A37B5000F2EEAA /* AppDelegate.m */; };
 		1630A68E15A37C0600F2EEAA /* Appdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1630A68D15A37C0600F2EEAA /* Appdate.m */; };
-		1630A69115A37F0200F2EEAA /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1630A69015A37F0200F2EEAA /* JSONKit.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +29,6 @@
 		1630A68515A37B5000F2EEAA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1630A68C15A37C0600F2EEAA /* Appdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appdate.h; sourceTree = "<group>"; };
 		1630A68D15A37C0600F2EEAA /* Appdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appdate.m; sourceTree = "<group>"; };
-		1630A68F15A37F0200F2EEAA /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		1630A69015A37F0200F2EEAA /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = ../JSONKit/JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +65,6 @@
 		1630A67415A37B5000F2EEAA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1630A68F15A37F0200F2EEAA /* JSONKit.h */,
-				1630A69015A37F0200F2EEAA /* JSONKit.m */,
 				1630A67515A37B5000F2EEAA /* UIKit.framework */,
 				1630A67715A37B5000F2EEAA /* Foundation.framework */,
 				1630A67915A37B5000F2EEAA /* CoreGraphics.framework */,
@@ -164,7 +159,6 @@
 				1630A68215A37B5000F2EEAA /* main.m in Sources */,
 				1630A68615A37B5000F2EEAA /* AppDelegate.m in Sources */,
 				1630A68E15A37C0600F2EEAA /* Appdate.m in Sources */,
-				1630A69115A37F0200F2EEAA /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
