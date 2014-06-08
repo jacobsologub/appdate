@@ -47,28 +47,24 @@ typedef void (^AppdateCompletionBlock)(NSError* error, NSDictionary* appInfo, BO
     @code
     @implementation MyClass
     
-    - (void) foo
-    {
+    - (void) foo {
         Appdate* appdate = [Appdate appdateWithAppleId: yourAppleAppID];
         appdate.delegate = self;
         [appdate checkNow];
     }
  
-    - (void) appdateComplete: (NSDictionary*) appInfo updateAvailable: (BOOL) updateAvailable
-    {
+    - (void) appdateComplete: (NSDictionary*) appInfo updateAvailable: (BOOL) updateAvailable {
         // Show the user an alert, take them to the app store etc...
     }
 
-    - (void) appdateFailed: (NSError*) error
-    {
+    - (void) appdateFailed: (NSError*) error {
         
     }
     @end
     @endcode
  
  */
-@interface Appdate : NSObject <NSURLConnectionDelegate>
-{
+@interface Appdate : NSObject <NSURLConnectionDelegate> {
 @private
     int appleId;
     id <AppdateDelegate> delegate;
