@@ -62,7 +62,8 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 
 - (void) dealloc {
    #if NS_BLOCKS_AVAILABLE
-    Block_release (completionBlock), completionBlock = nil;
+    Block_release (completionBlock);
+    completionBlock = nil;
    #endif
     
     delegate = nil;
@@ -108,7 +109,9 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
        #if NS_BLOCKS_AVAILABLE
         if (completionBlock != nil) {
             completionBlock (error, nil, NO);
-            Block_release (completionBlock), completionBlock = nil;
+            
+            Block_release (completionBlock);
+            completionBlock = nil;
         }
        #endif
     }
@@ -145,7 +148,9 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
         #if NS_BLOCKS_AVAILABLE
         if (completionBlock != nil) {
             completionBlock (error, nil, NO);
-            Block_release (completionBlock), completionBlock = nil;
+            
+            Block_release (completionBlock);
+            completionBlock = nil;
         }
        #endif
         
@@ -170,7 +175,9 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
        #if NS_BLOCKS_AVAILABLE
         if (completionBlock != nil) {
             completionBlock (nil, jsonData, hasUpdate);
-            Block_release (completionBlock), completionBlock = nil;
+            
+            Block_release (completionBlock);
+            completionBlock = nil;
         }
        #endif
     }
