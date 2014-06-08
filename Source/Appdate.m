@@ -98,22 +98,23 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 - (void) checkNow {
     NSURL* url = [NSURL URLWithString: [NSString stringWithFormat: @"%@?id=%d", kAppdateUrl, appleId]];
     if ([NSURLConnection connectionWithRequest: [NSURLRequest requestWithURL: url] delegate: self] == nil) {
+        NSDictionary* info = [NSDictionary dictionaryWithObject: @"A connection can't be created." forKey: @"message"];
+        NSError* error = [NSError errorWithDomain: @"NSURLErrorDomain" code: -1 userInfo: info];
+        
         if ([delegate respondsToSelector: @selector (appdateFailed:)]) {
-            NSDictionary* info = [NSDictionary dictionaryWithObject: @"A connection can't be created." forKey: @"message"];
-            NSError* error = [NSError errorWithDomain: @"NSURLErrorDomain" code: -1 userInfo: info];
-            
             [delegate appdateFailed: [NSError errorWithDomain: @"NSURLErrorDomain" code: -1 userInfo: info]];
-            
-           #if NS_BLOCKS_AVAILABLE
-            if (completionBlock != nil) {
-                completionBlock (error, nil, NO);
-                Block_release (completionBlock), completionBlock = nil;
-            }
-           #endif
         }
+        
+       #if NS_BLOCKS_AVAILABLE
+        if (completionBlock != nil) {
+            completionBlock (error, nil, NO);
+            Block_release (completionBlock), completionBlock = nil;
+        }
+       #endif
     }
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    else {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    }
 }
 
 #if NS_BLOCKS_AVAILABLE
