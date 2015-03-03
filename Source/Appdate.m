@@ -24,6 +24,10 @@
   ==============================================================================
 */
 
+#if !defined (__has_feature) || !__has_feature (objc_arc)
+  #error "This file requires ARC support."
+#endif
+
 #import "Appdate.h"
 
 const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
@@ -57,17 +61,12 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 }
 
 + (Appdate*) appdateWithAppleId: (int) appleIdToUse {
-    return [[[Appdate alloc] initWithAppleId: appleIdToUse] autorelease];
+    return [[Appdate alloc] initWithAppleId: appleIdToUse];
 }
 
 - (void) dealloc {
-   #if NS_BLOCKS_AVAILABLE
-    Block_release (completionBlock);
     completionBlock = nil;
-   #endif
-    
     delegate = nil;
-    [super dealloc];
 }
 
 - (NSComparisonResult) compareVersions: (NSString*) version1 version2: (NSString*) version2 {
@@ -110,7 +109,6 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
         if (completionBlock != nil) {
             completionBlock (error, nil, NO);
             
-            Block_release (completionBlock);
             completionBlock = nil;
         }
        #endif
@@ -123,12 +121,11 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 #if NS_BLOCKS_AVAILABLE
 - (void) checkNowWithBlock: (AppdateCompletionBlock) block {
     if (completionBlock != nil) {
-        Block_release (completionBlock);
         completionBlock = nil;
     }
     
     if (block != nil) {
-        completionBlock = Block_copy (block);
+        completionBlock = block;
         [self checkNow];
     }
 }
@@ -149,7 +146,6 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
         if (completionBlock != nil) {
             completionBlock (error, nil, NO);
             
-            Block_release (completionBlock);
             completionBlock = nil;
         }
        #endif
@@ -176,7 +172,6 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
         if (completionBlock != nil) {
             completionBlock (nil, jsonData, hasUpdate);
             
-            Block_release (completionBlock);
             completionBlock = nil;
         }
        #endif
@@ -193,7 +188,8 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
    #if NS_BLOCKS_AVAILABLE
     if (completionBlock != nil) {
         completionBlock (error, nil, NO);
-        Block_release (completionBlock), completionBlock = nil;
+        
+        completionBlock = nil;
     }
    #endif
     

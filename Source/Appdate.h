@@ -67,7 +67,7 @@ typedef void (^AppdateCompletionBlock)(NSError* error, NSDictionary* appInfo, BO
 @interface Appdate : NSObject <NSURLConnectionDelegate> {
 @private
     int appleId;
-    id <AppdateDelegate> delegate;
+    __unsafe_unretained id <AppdateDelegate> delegate;
     
    #if NS_BLOCKS_AVAILABLE
     AppdateCompletionBlock completionBlock;
