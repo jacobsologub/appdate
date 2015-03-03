@@ -224,6 +224,7 @@
 		1630A68A15A37B5000F2EEAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Appdate-Prefix.pch";
 				INFOPLIST_FILE = "Appdate-Info.plist";
@@ -235,6 +236,7 @@
 		1630A68B15A37B5000F2EEAA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Appdate-Prefix.pch";
 				INFOPLIST_FILE = "Appdate-Info.plist";

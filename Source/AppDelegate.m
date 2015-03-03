@@ -91,8 +91,7 @@
 
 - (void) dealloc
 {
-    [window release];
-    [super dealloc];
+    
 }
 
 #pragma mark -
