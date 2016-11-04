@@ -72,8 +72,8 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
 - (NSComparisonResult) compareVersions: (NSString*) version1 version2: (NSString*) version2 {
     NSComparisonResult result = NSOrderedSame;
     
-    NSMutableArray* a = (NSMutableArray*) [version1 componentsSeparatedByString: @"."];
-    NSMutableArray* b = (NSMutableArray*) [version2 componentsSeparatedByString: @"."];
+    NSMutableArray* a = [(NSMutableArray*) [version1 componentsSeparatedByString: @"."] mutableCopy];
+    NSMutableArray* b = [(NSMutableArray*) [version2 componentsSeparatedByString: @"."] mutableCopy];
     
     while (a.count < b.count) { [a addObject: @"0"]; }
     while (b.count < a.count) { [b addObject: @"0"]; }
