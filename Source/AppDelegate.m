@@ -34,7 +34,9 @@
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     window.backgroundColor = [UIColor whiteColor];
     [window makeKeyAndVisible];
-        
+    
+    window.rootViewController = [UIViewController new];
+    
     Appdate* appdate = [Appdate appdateWithAppleId: 284910350];
     appdate.delegate = self;
     
