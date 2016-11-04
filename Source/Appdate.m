@@ -159,7 +159,7 @@ const NSString* const kAppdateUrl = @"http://itunes.apple.com/lookup";
     if (results.count > 0) {
         NSDictionary* jsonData = [results objectAtIndex: 0];
         
-        NSString* thisVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString*) kCFBundleVersionKey];
+        NSString* thisVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"kCFBundleShortVersionString"];
         NSString* thatVersion = [jsonData objectForKey: @"version"];
         
         BOOL hasUpdate = [self compareVersions: thisVersion version2: thatVersion] == NSOrderedAscending;
